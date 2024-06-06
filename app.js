@@ -1,7 +1,6 @@
 firebase.initializeApp({
-    messagingSenderId: '448358493027'
+    messagingSenderId: '897338971978'
 });
-
 
 var bt_register = $('#register');
 var bt_delete = $('#delete');
@@ -182,7 +181,6 @@ function getToken() {
 
 
 function sendNotification(notification) {
-    var key = 'AAAAaGQ_q2M:APA91bGCEOduj8HM6gP24w2LEnesqM2zkL_qx2PJUSBjjeGSdJhCrDoJf_WbT7wpQZrynHlESAoZ1VHX9Nro6W_tqpJ3Aw-A292SVe_4Ho7tJQCQxSezDCoJsnqXjoaouMYIwr34vZTs';
 
     console.log('Send notification', notification);
 
@@ -191,35 +189,6 @@ function sendNotification(notification) {
     massage_row.hide();
 
     messaging.getToken()
-        .then(function(currentToken) {
-            fetch('https://fcm.googleapis.com/fcm/send', {
-                method: 'POST',
-                headers: {
-                    'Authorization': 'key=' + key,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    // Firebase loses 'image' from the notification.
-                    // And you must see this: https://github.com/firebase/quickstart-js/issues/71
-                    data: notification,
-                    to: currentToken
-                })
-            }).then(function(response) {
-                return response.json();
-            }).then(function(json) {
-                console.log('Response', json);
-
-                if (json.success === 1) {
-                    massage_row.show();
-                    massage_id.text(json.results[0].message_id);
-                } else {
-                    massage_row.hide();
-                    massage_id.text(json.results[0].error);
-                }
-            }).catch(function(error) {
-                showError(error);
-            });
-        })
         .catch(function(error) {
             showError('Error retrieving Instance ID token', error);
         });
